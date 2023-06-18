@@ -9,6 +9,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
 import { Input } from "../components/Input";
 import { SubmitButton } from "../components/SubmitButton";
@@ -18,8 +19,30 @@ import { gStyles } from "../styles/global.styles";
 export const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showText, setShowText] = useState("Показати");
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [isShowPassword, setIsShowPassword] = useState(true);
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const handelSubmit = () => {
+    if (email === "" || password === "") {
+      Alert.alert("Помилка", "Введіть всі необхідні дані");
+      return;
+    }
+    if (!validateEmail(email)) {
+      Alert.alert("Помилка", "Введіть дійсну електронну пошту.");
+      return;
+    }
+    console.log(`"email:" ${email}, "password:" ${password}`);
+    setEmail("");
+    setPassword("");
+  };
+
+  const handleShowPassword = () => {
+    setIsShowPassword(!isShowPassword);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -37,32 +60,32 @@ export const LoginScreen = () => {
             >
               <View style={gStyles.inputWrap}>
                 <Input
-                  placeholder="Адреса електронної пошти"
                   value={email}
                   onValue={setEmail}
+                  keyboardType="email-address"
+                  placeholder="Адреса електронної пошти"
                 />
                 <View>
                   <Input
                     value={password}
                     onValue={setPassword}
                     placeholder="Пароль"
-                    secureTextEntry={secureTextEntry}
+                    secureTextEntry={isShowPassword}
                   />
                   <TouchableOpacity
                     onPress={() => {
-                      setShowText(
-                        secureTextEntry === true ? "Приховати" : "Показати"
-                      );
-                      setSecureTextEntry(!secureTextEntry);
+                      handleShowPassword();
                     }}
                     style={gStyles.showPasswordBox}
                   >
-                    <Text style={gStyles.text}>{showText}</Text>
+                    <Text style={gStyles.text}>
+                      {isShowPassword ? "Показати" : "Приховати"}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </KeyboardAvoidingView>
-            <SubmitButton text="Увійти" />
+            <SubmitButton text="Увійти" onPress={handelSubmit} />
             <Text style={gStyles.text}>Немає акаунту? Зареєструватися</Text>
           </View>
         </ImageBackground>

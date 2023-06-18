@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { StyleSheet, TextInput } from "react-native";
 
-export const Input = ({ value, onValue, placeholder, secureTextEntry }) => {
+export const Input = ({
+  value,
+  onValue,
+  placeholder,
+  secureTextEntry,
+  keyboardType,
+}) => {
   const [focus, setFocus] = useState(false);
 
   return (
@@ -18,6 +24,7 @@ export const Input = ({ value, onValue, placeholder, secureTextEntry }) => {
       placeholder={placeholder}
       placeholderTextColor="#BDBDBD"
       secureTextEntry={secureTextEntry}
+      keyboardType={keyboardType}
       onFocus={() => {
         setFocus(true);
       }}
