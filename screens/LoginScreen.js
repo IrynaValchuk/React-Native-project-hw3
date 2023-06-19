@@ -20,11 +20,7 @@ export const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(true);
-
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const handelSubmit = () => {
     if (email === "" || password === "") {
@@ -40,6 +36,15 @@ export const LoginScreen = () => {
     setPassword("");
   };
 
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const handleFocusChange = (newFocus) => {
+    setIsShowKeyboard(newFocus);
+  };
+
   const handleShowPassword = () => {
     setIsShowPassword(!isShowPassword);
   };
@@ -52,7 +57,13 @@ export const LoginScreen = () => {
           style={gStyles.bgImage}
           resizeMode="cover"
         >
-          <View style={[gStyles.formContainer, styles.formContainer]}>
+          <View
+            style={[
+              gStyles.formContainer,
+              styles.formContainer,
+              { height: isShowKeyboard ? 507 : 489 },
+            ]}
+          >
             <Text style={gStyles.title}>Увійти</Text>
             <KeyboardAvoidingView
               behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -64,6 +75,7 @@ export const LoginScreen = () => {
                   onValue={setEmail}
                   keyboardType="email-address"
                   placeholder="Адреса електронної пошти"
+                  onFocusChange={handleFocusChange}
                 />
                 <View>
                   <Input
@@ -71,6 +83,7 @@ export const LoginScreen = () => {
                     onValue={setPassword}
                     placeholder="Пароль"
                     secureTextEntry={isShowPassword}
+                    onFocusChange={handleFocusChange}
                   />
                   <TouchableOpacity
                     onPress={() => {
@@ -96,8 +109,6 @@ export const LoginScreen = () => {
 
 const styles = StyleSheet.create({
   formContainer: {
-    height: 489,
     paddingTop: 32,
-    paddingBottom: 144,
   },
 });

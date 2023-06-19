@@ -19,10 +19,8 @@ export const gStyles = StyleSheet.create({
   },
   formContainer: {
     position: "relative",
-    height: 549,
     alignItems: "center",
     paddingTop: 92,
-    paddingBottom: 78,
     paddingRight: 16,
     paddingLeft: 16,
     backgroundColor: "#fff",

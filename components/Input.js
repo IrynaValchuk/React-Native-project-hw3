@@ -7,9 +7,14 @@ export const Input = ({
   placeholder,
   secureTextEntry,
   keyboardType,
+  onFocusChange,
 }) => {
   const [focus, setFocus] = useState(false);
 
+  const handleFocusChange = (newFocus) => {
+    setFocus(newFocus);
+    onFocusChange(newFocus);
+  };
   return (
     <TextInput
       style={[
@@ -26,10 +31,10 @@ export const Input = ({
       secureTextEntry={secureTextEntry}
       keyboardType={keyboardType}
       onFocus={() => {
-        setFocus(true);
+        handleFocusChange(true);
       }}
       onBlur={() => {
-        setFocus(false);
+        handleFocusChange(false);
       }}
     />
   );
